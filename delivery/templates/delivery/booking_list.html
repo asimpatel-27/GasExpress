@@ -1,0 +1,491 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cylinder Bookings | GasExpress</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            color: #333;
+        }
+
+        nav {
+            background: #157347;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 8px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            color: #157347;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .filter-box {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-form select,
+        .filter-form input[type="text"] {
+            height: 45px;
+            padding: 12px;
+            border: 1px solid #999;
+            border-radius: 6px;
+            background: white;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .filter-form select {
+            min-width: 170px;
+        }
+
+        .search-row input[type="text"] {
+            width: 350px;
+            max-width: 100%;
+        }
+
+        .search-row input[type="text"]::placeholder {
+            color: #666;
+            opacity: 1;
+        }
+
+        .search-btn {
+            height: 45px;
+            padding: 12px 22px;
+            background: #157347;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-btn:hover {
+            background: #105c39;
+        }
+
+        .reset-btn {
+            display: inline-block;
+            padding: 14px 20px;
+            background: #e9ecef;
+            color: #333;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .reset-btn:hover {
+            background: #d6d9dc;
+        }
+
+        .table-box {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            overflow-x: auto;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .table-box h2 {
+            margin-bottom: 18px;
+            color: #157347;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #157347;
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover td {
+            background: #f8fbf9;
+        }
+
+        .booking-id {
+            color: #157347;
+            font-weight: bold;
+        }
+
+        .staff-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .employee-id {
+            display: block;
+            color: #777;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .not-assigned {
+            color: #888;
+            font-style: italic;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: #856404;
+            background: #fff3cd;
+        }
+
+        .confirmed {
+            color: #084298;
+            background: #cfe2ff;
+        }
+
+        .delivered {
+            color: #0f5132;
+            background: #d1e7dd;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 35px;
+            color: #777;
+        }
+
+        .bottom-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .bottom-links a {
+            padding: 12px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .book-btn {
+            background: #157347;
+            color: white;
+        }
+
+        .home-btn {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .bottom-links a:hover {
+            opacity: 0.85;
+        }
+
+        footer {
+            text-align: center;
+            background: #157347;
+            color: white;
+            padding: 18px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                align-items: flex-start;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 5px 8px 5px 0;
+            }
+
+            .container {
+                margin-top: 22px;
+                padding: 0 12px;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-row select,
+            .search-row input[type="text"],
+            .search-btn,
+            .reset-btn {
+                width: 100%;
+            }
+
+            .table-box {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">GasExpress</div>
+
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'booking' %}">Book Cylinder</a>
+            <a href="{% url 'payment_history' %}">Payments</a>
+            <a href="{% url 'complaint' %}">Complaints</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="heading">
+            <h1>My Cylinder Bookings</h1>
+            <p>Search your bookings and view delivery staff and current status.</p>
+        </div>
+
+        <div class="filter-box">
+
+            <form method="GET"
+                  action="{% url 'booking_list' %}"
+                  class="filter-form">
+
+                <!-- First Row: Status and Cylinder Filters -->
+                <div class="filter-row">
+
+                    <select name="status">
+                        <option value="">All Status</option>
+
+                        <option value="Pending"
+                            {% if selected_status == "Pending" %}selected{% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="Confirmed"
+                            {% if selected_status == "Confirmed" %}selected{% endif %}>
+                            Confirmed
+                        </option>
+
+                        <option value="Delivered"
+                            {% if selected_status == "Delivered" %}selected{% endif %}>
+                            Delivered
+                        </option>
+                    </select>
+
+                    <select name="cylinder_type">
+                        <option value="">All Cylinders</option>
+
+                        <option value="Domestic"
+                            {% if selected_cylinder == "Domestic" %}selected{% endif %}>
+                            Domestic
+                        </option>
+
+                        <option value="Commercial"
+                            {% if selected_cylinder == "Commercial" %}selected{% endif %}>
+                            Commercial
+                        </option>
+                    </select>
+
+                </div>
+
+                <!-- Second Row: Search and Reset -->
+                <div class="filter-row search-row">
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search booking ID or customer name"
+                        value="{{ search|default:'' }}"
+                    >
+
+                    <button type="submit" class="search-btn">
+                        Search
+                    </button>
+
+                    <a href="{% url 'booking_list' %}" class="reset-btn">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="table-box">
+
+            <h2>Booking Details</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer Name</th>
+                        <th>Cylinder Type</th>
+                        <th>Quantity</th>
+                        <th>Booking Date</th>
+                        <th>Delivery Staff</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for booking in bookings %}
+                    <tr>
+                        <td class="booking-id">#{{ booking.id }}</td>
+
+                        <td>{{ booking.customer_name }}</td>
+
+                        <td>{{ booking.cylinder_type }}</td>
+
+                        <td>{{ booking.quantity }}</td>
+
+                        <td>
+                            {{ booking.booking_date|date:"d M Y, h:i A" }}
+                        </td>
+
+                        <td>
+                            {% if booking.delivery_staff %}
+                                <span class="staff-name">
+                                    {{ booking.delivery_staff.name }}
+                                </span>
+
+                                <span class="employee-id">
+                                    {{ booking.delivery_staff.employee_id }}
+                                </span>
+                            {% else %}
+                                <span class="not-assigned">
+                                    Not assigned
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if booking.status == "Pending" %}
+                                <span class="status pending">Pending</span>
+
+                            {% elif booking.status == "Confirmed" %}
+                                <span class="status confirmed">Confirmed</span>
+
+                            {% elif booking.status == "Delivered" %}
+                                <span class="status delivered">Delivered</span>
+
+                            {% else %}
+                                <span class="status">{{ booking.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="empty-message">
+                            No bookings found. Try changing your search or filters.
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="bottom-links">
+            <a href="{% url 'booking' %}" class="book-btn">
+                + Book Cylinder
+            </a>
+
+            <a href="{% url 'home' %}" class="home-btn">
+                Back to Home
+            </a>
+
+            <a href="{% url 'dashboard' %}" class="home-btn">
+                Dashboard
+            </a>
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 GasExpress | Gas Cylinder Delivery System
+    </footer>
+
+</body>
+</html>

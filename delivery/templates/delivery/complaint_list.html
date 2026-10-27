@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Complaints - GasExpress</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #176b45;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #198754;
+            color: white;
+        }
+
+        a {
+            color: #176b45;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>GasExpress - My Complaints</h1>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Complaint Type</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+
+        {% for complaint in complaints %}
+        <tr>
+            <td>{{ complaint.id }}</td>
+            <td>{{ complaint.complaint_type }}</td>
+            <td>{{ complaint.description }}</td>
+            <td>{{ complaint.created_at }}</td>
+            <td>{{ complaint.status }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No complaints submitted yet.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="{% url 'complaint' %}">Submit New Complaint</a></p>
+    <p><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
+
+</div>
+</body>
+</html>

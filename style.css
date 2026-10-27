@@ -1,0 +1,276 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+header {
+    background: #102a43;
+    color: white;
+    padding: 20px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+header h2 {
+    font-size: 26px;
+    color: #ffb703;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav a:hover {
+    color: #ffb703;
+}
+
+.hero {
+    min-height: 380px;
+    padding: 90px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #102a43, #176b87);
+    color: white;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+button {
+    background: #ffb703;
+    color: #102a43;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffd166;
+}
+
+#services,
+#about {
+    padding: 55px 20px;
+    text-align: center;
+}
+
+#services h2,
+#about h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #102a43;
+}
+
+#services p,
+#about p {
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+footer {
+    background: #102a43;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+    header {
+        justify-content: center;
+        text-align: center;
+    }
+
+    nav {
+        justify-content: center;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+}
+```
+```css
+.login-section {
+    min-height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: #eaf1f8;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.login-box h1 {
+    color: #431010;
+    margin-bottom: 10px;
+}
+
+.login-box p {
+    margin-bottom: 22px;
+    color: #f0234f;
+}
+
+.login-box label {
+    display: block;
+    margin: 15px 0 7px;
+    font-weight: bold;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+.login-box button {
+    width: 100%;
+    margin-top: 22px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #176b87;
+    text-decoration: none;
+}
+
+#loginMessage {
+    margin-top: 15px;
+    overflow-wrap: anywhere;
+}
+```
+```css
+.login-btn {
+    display: inline-block;
+    background: #ffb703;
+    color: #102a43;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-btn:hover {
+    background: #ffd166;
+}
+```
+```css
+.login-box select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: white;
+    font-size: 15px;
+}
+
+.login-box input:focus,
+.login-box select:focus {
+    outline: 2px solid #2d8717;
+    border-color: #17871d;
+}
+
+#bookingMessage {
+    margin-top: 20px;
+    overflow-wrap: anywhere;
+}
+```
+```css
+.primary-btn {
+    display: inline-block;
+    background: #ffb703;
+    color: #102a43;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.primary-btn:hover {
+    background: #ffd166;
+}
+```
+```css
+#trackingResult {
+    margin-top: 25px;
+    padding: 15px;
+    background: #eaf7ee;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+}
+
+#trackingResult h3 {
+    color: #176b45;
+    margin-bottom: 10px;
+}
+
+#trackingResult p {
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+```css
+.dashboard-card {
+    background: #eaf1f8;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    border-left: 5px solid #176b87;
+}
+
+.dashboard-card h3 {
+    color: #102a43;
+    margin-bottom: 8px;
+}
+
+.dashboard-card p {
+    font-size: 26px;
+    font-weight: bold;
+    color: #176b87;
+    margin: 0;
+}
+
+.dashboard-card + .primary-btn {
+    margin-top: 15px;
+}
+```
+

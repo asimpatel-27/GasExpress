@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasExpress - Book Cylinder</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef4f8;
+            margin: 0;
+            padding: 25px 15px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px #0002;
+        }
+
+        h1 {
+            text-align: center;
+            color: #176b45;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 85px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #198754;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 24px;
+            background: #198754;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #146c43;
+        }
+
+        .message {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+            background: #e8f5e9;
+            color: #176b45;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #b71c1c;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 22px;
+        }
+
+        .links a {
+            display: inline-block;
+            margin: 5px;
+            color: #176b45;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>GasExpress</h1>
+        <p class="subtitle">Book Your Gas Cylinder Online</p>
+
+        {% for message in messages %}
+            <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="customer_name">Customer Name</label>
+            <input
+                type="text"
+                id="customer_name"
+                name="customer_name"
+                placeholder="Enter your full name"
+                maxlength="100"
+                required
+            >
+
+            <label for="phone">Mobile Number</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Enter mobile number"
+                maxlength="15"
+                required
+            >
+
+            <label for="address">Delivery Address</label>
+            <textarea
+                id="address"
+                name="address"
+                placeholder="Enter your complete address"
+                required
+            ></textarea>
+
+            <label for="cylinder_type">Cylinder Type</label>
+            <select id="cylinder_type" name="cylinder_type" required>
+                <option value="Domestic">Domestic</option>
+                <option value="Commercial">Commercial</option>
+            </select>
+
+            <label for="quantity">Quantity</label>
+            <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                min="1"
+                value="1"
+                required
+            >
+
+            <button type="submit">Book Cylinder</button>
+        </form>
+
+        <div class="links">
+            <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+            <a href="{% url 'booking_list' %}">My Bookings</a>
+            <a href="{% url 'home' %}">Home</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

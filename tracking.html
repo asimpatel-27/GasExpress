@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Tracking - GasConnect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h2>GasConnect</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="booking.html">Book Cylinder</a>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="login-box">
+            <h1>Track Your Delivery</h1>
+            <p>Enter your booking reference ID below.</p>
+
+            <form id="trackingForm">
+                <label for="bookingId">Booking ID</label>
+                <input type="text" id="bookingId"
+                    placeholder="Example: GC123456" required>
+
+                <button type="submit">Track Booking</button>
+            </form>
+
+            <div id="trackingResult"></div>
+
+            <a href="index.html" class="back-link">Back to Home</a>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("trackingForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const bookingId = document.getElementById("bookingId").value.trim();
+            const result = document.getElementById("trackingResult");
+
+            result.innerHTML = "";
+
+            const heading = document.createElement("h3");
+            const message = document.createElement("p");
+
+            heading.textContent = "Demo Tracking Result";
+            message.textContent = "Booking ID: " + bookingId +
+                " — Status: Booking received (demo only).";
+
+            result.appendChild(heading);
+            result.appendChild(message);
+        });
+    </script>
+
+</body>
+</html>
+

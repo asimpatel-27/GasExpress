@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasExpress Admin Reports</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f6f3;
+            color: #244337;
+        }
+
+        header {
+            background: #07583f;
+            color: white;
+            padding: 22px 6%;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin-bottom: 0;
+            color: #d6eee4;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h2 {
+            margin-bottom: 8px;
+            color: #07583f;
+        }
+
+        .heading p {
+            color: #64776e;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            border: 1px solid #e0e9e3;
+            box-shadow: 0 3px 12px #173b3010;
+        }
+
+        .card p {
+            margin: 0;
+            color: #66796f;
+            font-size: 14px;
+        }
+
+        .card h3 {
+            margin: 14px 0 0;
+            font-size: 30px;
+            color: #08754f;
+            overflow-wrap: anywhere;
+        }
+
+        .section {
+            margin-top: 30px;
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e0e9e3;
+        }
+
+        .section h2 {
+            color: #07583f;
+            margin-top: 0;
+        }
+
+        .report-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e6eee9;
+        }
+
+        .report-row:last-child {
+            border-bottom: none;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            background: #08754f;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #064b37;
+        }
+
+        .btn-light {
+            background: white;
+            color: #07583f;
+            border: 1px solid #08754f;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 22px;
+            text-align: center;
+            background: #064b37;
+            color: white;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 500px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .report-row {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>GasExpress</h1>
+    <p>Admin Reports Dashboard</p>
+</header>
+
+<div class="container">
+
+    <div class="heading">
+        <h2>Business Overview</h2>
+        <p>Summary of cylinder bookings, payments and complaints.</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <p>Total Bookings</p>
+            <h3>{{ total_bookings }}</h3>
+        </div>
+
+        <div class="card">
+            <p>Pending Bookings</p>
+            <h3>{{ pending_bookings }}</h3>
+        </div>
+
+        <div class="card">
+            <p>Confirmed Bookings</p>
+            <h3>{{ confirmed_bookings }}</h3>
+        </div>
+
+        <div class="card">
+            <p>Delivered Bookings</p>
+            <h3>{{ delivered_bookings }}</h3>
+        </div>
+
+        <div class="card">
+            <p>Total Complaints</p>
+            <h3>{{ total_complaints }}</h3>
+        </div>
+
+        <div class="card">
+            <p>Pending Complaints</p>
+            <h3>{{ pending_complaints }}</h3>
+        </div>
+
+        <div class="card">
+            <p>Total Payment Records</p>
+            <h3>{{ total_payments }}</h3>
+        </div>
+
+        <div class="card">
+            <p>Recorded Paid Amount</p>
+            <h3>₹{{ paid_amount|floatformat:2 }}</h3>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>Booking Summary</h2>
+
+        <div class="report-row">
+            <span>Pending</span>
+            <span class="value">{{ pending_bookings }}</span>
+        </div>
+
+        <div class="report-row">
+            <span>Confirmed</span>
+            <span class="value">{{ confirmed_bookings }}</span>
+        </div>
+
+        <div class="report-row">
+            <span>Delivered</span>
+            <span class="value">{{ delivered_bookings }}</span>
+        </div>
+    </div>
+
+    <div class="links">
+        <a class="btn" href="{% url 'home' %}">Home</a>
+        <a class="btn" href="/admin/">Django Admin</a>
+        <a class="btn btn-light" href="{% url 'booking_list' %}">
+            Booking List
+        </a>
+        <a class="btn btn-light" href="{% url 'payment_history' %}">
+            Payment History
+        </a>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 GasExpress | Admin Reports
+</footer>
+
+</body>
+</html>

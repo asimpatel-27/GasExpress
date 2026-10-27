@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Complaint | GasExpress</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6f4;
+            color: #333;
+        }
+
+        nav {
+            background: #146c43;
+            color: white;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 35px auto;
+            padding: 0 18px;
+        }
+
+        .heading {
+            margin-bottom: 24px;
+        }
+
+        .heading h1 {
+            color: #146c43;
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+
+        .heading p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .form-card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-card label {
+            display: block;
+            margin: 16px 0 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-card input,
+        .form-card select,
+        .form-card textarea {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: white;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .form-card input:focus,
+        .form-card select:focus,
+        .form-card textarea:focus {
+            outline: 2px solid #b5dfc7;
+            border-color: #146c43;
+        }
+
+        .form-card textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px;
+            background: #146c43;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #105533;
+        }
+
+        .messages {
+            margin-bottom: 18px;
+        }
+
+        .message {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #d1e7dd;
+            color: #0f5132;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .bottom-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .bottom-links a {
+            display: inline-block;
+            padding: 12px 16px;
+            border-radius: 6px;
+            background: #e2e8e4;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .bottom-links a.primary {
+            background: #146c43;
+            color: white;
+        }
+
+        .bottom-links a:hover {
+            opacity: 0.85;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 18px;
+            background: #146c43;
+            color: white;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 500px) {
+            nav {
+                align-items: flex-start;
+            }
+
+            nav .nav-links {
+                gap: 12px;
+            }
+
+            .container {
+                margin-top: 24px;
+                padding: 0 12px;
+            }
+
+            .heading h1 {
+                font-size: 25px;
+            }
+
+            .form-card {
+                padding: 18px;
+            }
+
+            .bottom-links {
+                flex-direction: column;
+            }
+
+            .bottom-links a {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">GasExpress</div>
+
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'booking_list' %}">My Bookings</a>
+            <a href="{% url 'complaint_list' %}">My Complaints</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <div class="heading">
+            <h1>Submit a Complaint</h1>
+            <p>
+                Tell us about your issue. Please provide the correct details
+                so our team can review your complaint.
+            </p>
+        </div>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'complaint' %}" class="form-card">
+            {% csrf_token %}
+
+            <label for="customer_name">Customer Name</label>
+            <input
+                type="text"
+                id="customer_name"
+                name="customer_name"
+                placeholder="Enter your full name"
+                required
+            >
+
+            <label for="phone">Phone Number</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Enter your phone number"
+                maxlength="15"
+                required
+            >
+
+            <label for="address">Address</label>
+            <textarea
+                id="address"
+                name="address"
+                placeholder="Enter your full address"
+                required
+            ></textarea>
+
+            <label for="complaint_type">Complaint Type</label>
+            <select
+                id="complaint_type"
+                name="complaint_type"
+                required
+            >
+                <option value="">Select Complaint Type</option>
+                <option value="Gas Leakage">Gas Leakage</option>
+                <option value="Safety Inspection">Safety Inspection</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="description">Complaint Description</label>
+            <textarea
+                id="description"
+                name="description"
+                placeholder="Describe your issue in detail"
+                required
+            ></textarea>
+
+            <button type="submit" class="submit-btn">
+                Submit Complaint
+            </button>
+        </form>
+
+        <div class="bottom-links">
+            <a href="{% url 'complaint_list' %}" class="primary">
+                View My Complaints
+            </a>
+
+            <a href="{% url 'home' %}">
+                Back to Home
+            </a>
+        </div>
+
+    </main>
+
+    <footer>
+        © 2026 GasExpress | Gas Cylinder Delivery System
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasConnect - Cylinder Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h2>GasConnect</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="booking.html">Booking</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="login-box">
+            <h1>Cylinder Management</h1>
+            <p>Add cylinder stock details.</p>
+
+            <form id="cylinderForm">
+                <label for="cylinderId">Cylinder ID</label>
+                <input type="text" id="cylinderId" placeholder="Enter Cylinder ID" required>
+
+                <label for="cylinderType">Cylinder Type</label>
+                <select id="cylinderType" required>
+                    <option value="">Select Type</option>
+                    <option value="14.2 kg Domestic">14.2 kg Domestic</option>
+                    <option value="5 kg Domestic">5 kg Domestic</option>
+                    <option value="19 kg Commercial">19 kg Commercial</option>
+                </select>
+
+                <label for="quantity">Available Quantity</label>
+                <input type="number" id="quantity" min="0" placeholder="Enter quantity" required>
+
+                <label for="status">Status</label>
+                <select id="status" required>
+                    <option value="Available">Available</option>
+                    <option value="Allocated">Allocated</option>
+                    <option value="Under Maintenance">Under Maintenance</option>
+                </select>
+
+                <button type="submit">Add Cylinder</button>
+            </form>
+
+            <p id="cylinderMessage"></p>
+            <a href="dashboard.html" class="back-link">Back to Dashboard</a>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("cylinderForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const id = document.getElementById("cylinderId").value;
+            const type = document.getElementById("cylinderType").value;
+            const quantity = document.getElementById("quantity").value;
+            const status = document.getElementById("status").value;
+
+            document.getElementById("cylinderMessage").textContent =
+                "Demo cylinder added: " + id + " | " + type +
+                " | Quantity: " + quantity + " | Status: " + status +
+                ". Data is not saved to a database.";
+        });
+    </script>
+
+</body>
+</html>
+```

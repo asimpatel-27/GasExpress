@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasConnect - Safety Complaint</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h2>GasConnect</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="booking.html">Booking</a>
+            <a href="tracking.html">Tracking</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="login-box">
+            <h1>Safety Complaint</h1>
+            <p>Report a delivery issue or safety concern.</p>
+
+            <form id="complaintForm">
+                <label for="customerName">Customer Name</label>
+                <input type="text" id="customerName" placeholder="Enter your name" required>
+
+                <label for="customerPhone">Mobile Number</label>
+                <input type="tel" id="customerPhone" placeholder="10-digit mobile number"
+                    pattern="[0-9]{10}" maxlength="10" required>
+
+                <label for="complaintType">Complaint Type</label>
+                <select id="complaintType" required>
+                    <option value="">Select complaint type</option>
+                    <option value="Gas Leakage">Gas Leakage</option>
+                    <option value="Cylinder Damage">Cylinder Damage</option>
+                    <option value="Delivery Delay">Delivery Delay</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="description">Complaint Details</label>
+                <input type="text" id="description"
+                    placeholder="Describe your complaint" required>
+
+                <button type="submit">Submit Complaint</button>
+            </form>
+
+            <p id="complaintMessage"></p>
+            <a href="index.html" class="back-link">Back to Home</a>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("complaintForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const type = document.getElementById("complaintType").value;
+            const reference = "GC" + Date.now().toString().slice(-6);
+
+            document.getElementById("complaintMessage").textContent =
+                "Demo complaint submitted. Reference: " + reference +
+                " | Type: " + type +
+                ". The complaint is not saved to a database.";
+        });
+    </script>
+
+</body>
+</html>
+```

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | GasExpress</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6f4;
+            color: #333;
+        }
+
+        nav {
+            background: #146c43;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading h1 {
+            color: #146c43;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin: 28px 0 16px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 23px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #146c43;
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: #666;
+            font-weight: normal;
+            margin-bottom: 16px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #146c43;
+            overflow-wrap: anywhere;
+        }
+
+        .bookings {
+            border-top-color: #0d6efd;
+        }
+
+        .bookings .number {
+            color: #0d6efd;
+        }
+
+        .pending {
+            border-top-color: #e0a800;
+        }
+
+        .pending .number {
+            color: #b58100;
+        }
+
+        .confirmed {
+            border-top-color: #0dcaf0;
+        }
+
+        .confirmed .number {
+            color: #087990;
+        }
+
+        .delivered {
+            border-top-color: #198754;
+        }
+
+        .delivered .number {
+            color: #198754;
+        }
+
+        .complaints {
+            border-top-color: #dc3545;
+        }
+
+        .complaints .number {
+            color: #dc3545;
+        }
+
+        .payments {
+            border-top-color: #6f42c1;
+        }
+
+        .payments .number {
+            color: #6f42c1;
+        }
+
+        .customers {
+            border-top-color: #fd7e14;
+        }
+
+        .customers .number {
+            color: #c45c00;
+        }
+
+        .amount {
+            border-top-color: #198754;
+        }
+
+        .amount .number {
+            color: #198754;
+            font-size: 26px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-box h2 {
+            color: #146c43;
+            margin-bottom: 22px;
+            font-size: 21px;
+        }
+
+        .chart-row {
+            margin-bottom: 22px;
+        }
+
+        .chart-label {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 9px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .chart-track {
+            height: 22px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            width: 0;
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .bar-pending {
+            background: #e0a800;
+        }
+
+        .bar-confirmed {
+            background: #0d6efd;
+        }
+
+        .bar-delivered {
+            background: #198754;
+        }
+
+        .bar-complaint-pending {
+            background: #dc3545;
+        }
+
+        .bar-complaint-progress {
+            background: #fd7e14;
+        }
+
+        .bar-complaint-resolved {
+            background: #198754;
+        }
+
+        .chart-note {
+            color: #777;
+            font-size: 12px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .info-box {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-top: 28px;
+            line-height: 1.8;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-box h2 {
+            color: #146c43;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .actions a {
+            display: inline-block;
+            padding: 12px 18px;
+            background: #146c43;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .actions a:hover {
+            background: #0f5132;
+        }
+
+        .actions .secondary {
+            background: #e2e8e4;
+            color: #333;
+        }
+
+        .actions .secondary:hover {
+            background: #d2d9d4;
+        }
+
+        footer {
+            background: #146c43;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 45px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 500px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                margin-top: 22px;
+                padding: 0 14px;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 8px 12px 0 0;
+            }
+
+            .heading h1 {
+                font-size: 25px;
+            }
+
+            .chart-box {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">GasExpress</div>
+
+        <div>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="/admin/">Django Admin</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <div class="heading">
+            <h1>Admin Dashboard</h1>
+            <p>
+                Welcome to GasExpress. Monitor bookings, customers,
+                complaints and payments here.
+            </p>
+        </div>
+
+        <h2 class="section-title">Booking Overview</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card bookings">
+                <h3>Total Bookings</h3>
+                <div class="number">{{ total_bookings }}</div>
+            </div>
+
+            <div class="card pending">
+                <h3>Pending Bookings</h3>
+                <div class="number">{{ pending_bookings }}</div>
+            </div>
+
+            <div class="card confirmed">
+                <h3>Confirmed Bookings</h3>
+                <div class="number">{{ confirmed_bookings }}</div>
+            </div>
+
+            <div class="card delivered">
+                <h3>Delivered Bookings</h3>
+                <div class="number">{{ delivered_bookings }}</div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">Customers and Complaints</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card customers">
+                <h3>Total User Accounts</h3>
+                <div class="number">{{ total_customers }}</div>
+            </div>
+
+            <div class="card complaints">
+                <h3>Total Complaints</h3>
+                <div class="number">{{ total_complaints }}</div>
+            </div>
+
+            <div class="card pending">
+                <h3>Pending Complaints</h3>
+                <div class="number">{{ pending_complaints }}</div>
+            </div>
+
+            <div class="card payments">
+                <h3>Total Payment Records</h3>
+                <div class="number">{{ total_payments }}</div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">Payment Overview</h2>
+
+        <div class="dashboard-grid">
+
+            <div class="card amount">
+                <h3>Total Amount Marked as Paid</h3>
+                <div class="number">₹{{ paid_amount|floatformat:2 }}</div>
+            </div>
+
+        </div>
+
+        <!-- Booking Status Chart -->
+
+        <h2 class="section-title">Booking Status Chart</h2>
+
+        <div class="chart-box">
+
+            <h2>Booking Overview</h2>
+
+            <div class="chart-row">
+                <div class="chart-label">
+                    <span>Pending</span>
+                    <span>{{ pending_bookings }}</span>
+                </div>
+
+                <div class="chart-track">
+                    <div
+                        class="chart-bar bar-pending"
+                        data-width="{{ pending_percent }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-label">
+                    <span>Confirmed</span>
+                    <span>{{ confirmed_bookings }}</span>
+                </div>
+
+                <div class="chart-track">
+                    <div
+                        class="chart-bar bar-confirmed"
+                        data-width="{{ confirmed_percent }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-label">
+                    <span>Delivered</span>
+                    <span>{{ delivered_bookings }}</span>
+                </div>
+
+                <div class="chart-track">
+                    <div
+                        class="chart-bar bar-delivered"
+                        data-width="{{ delivered_percent }}">
+                    </div>
+                </div>
+            </div>
+
+            <p class="chart-note">
+                Bars show each booking status as a percentage of total bookings.
+            </p>
+
+        </div>
+
+        <!-- Complaint Status Chart -->
+
+        <h2 class="section-title">Complaint Status Chart</h2>
+
+        <div class="chart-box">
+
+            <h2>Complaint Overview</h2>
+
+            <div class="chart-row">
+                <div class="chart-label">
+                    <span>Pending</span>
+                    <span>{{ pending_complaints }}</span>
+                </div>
+
+                <div class="chart-track">
+                    <div
+                        class="chart-bar bar-complaint-pending"
+                        data-width="{{ pending_complaint_percent }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-label">
+                    <span>In Progress</span>
+                    <span>{{ in_progress_complaints }}</span>
+                </div>
+
+                <div class="chart-track">
+                    <div
+                        class="chart-bar bar-complaint-progress"
+                        data-width="{{ in_progress_complaint_percent }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-label">
+                    <span>Resolved</span>
+                    <span>{{ resolved_complaints }}</span>
+                </div>
+
+                <div class="chart-track">
+                    <div
+                        class="chart-bar bar-complaint-resolved"
+                        data-width="{{ resolved_complaint_percent }}">
+                    </div>
+                </div>
+            </div>
+
+            <p class="chart-note">
+                Bars show each complaint status as a percentage of total complaints.
+            </p>
+
+        </div>
+
+        <div class="info-box">
+
+            <h2>Dashboard Information</h2>
+
+            <p>
+                <strong>Bookings:</strong>
+                Review booking totals and delivery progress.
+            </p>
+
+            <p>
+                <strong>Complaints:</strong>
+                Monitor customer complaints and pending issues.
+            </p>
+
+            <p>
+                <strong>Payments:</strong>
+                The paid amount includes only payment records marked as Paid.
+                COD and UPI selections in this demo do not transfer money.
+            </p>
+
+        </div>
+
+        <div class="actions">
+            <a href="/admin/">Manage Records in Admin</a>
+            <a href="{% url 'reports' %}" class="secondary">Refresh Dashboard</a>
+            <a href="{% url 'home' %}" class="secondary">Back to Home</a>
+
+            {% url 'admin_bookings' as admin_bookings_url %}
+            {% if admin_bookings_url %}
+                <a href="{{ admin_bookings_url }}">Manage Bookings</a>
+            {% endif %}
+        </div>
+
+    </main>
+
+    <footer>
+        © 2026 GasExpress | Admin Dashboard
+    </footer>
+
+    <script>
+        document.querySelectorAll(".chart-bar[data-width]").forEach(function (bar) {
+            const parsedValue = Number(bar.dataset.width);
+
+            const width = Number.isFinite(parsedValue)
+                ? Math.max(0, Math.min(100, parsedValue))
+                : 0;
+
+            bar.style.width = width + "%";
+        });
+    </script>
+
+</body>
+</html>

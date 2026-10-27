@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasConnect - Payment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h2>GasConnect</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="booking.html">Booking</a>
+            <a href="tracking.html">Track Delivery</a>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="login-box">
+            <h1>Gas Cylinder Payment</h1>
+            <p>Enter your booking and payment details.</p>
+
+            <form id="paymentForm">
+                <label for="bookingId">Booking ID</label>
+                <input type="text" id="bookingId" placeholder="Enter Booking ID" required>
+
+                <label for="customerName">Customer Name</label>
+                <input type="text" id="customerName" placeholder="Enter your name" required>
+
+                <label for="amount">Amount (₹)</label>
+                <input type="number" id="amount" min="1" placeholder="Enter amount" required>
+
+                <label for="paymentMethod">Payment Method</label>
+                <select id="paymentMethod" required>
+                    <option value="">Select Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Debit/Credit Card</option>
+                </select>
+
+                <button type="submit">Submit Payment</button>
+            </form>
+
+            <p id="paymentMessage"></p>
+            <a href="index.html" class="back-link">Back to Home</a>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("paymentForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const bookingId = document.getElementById("bookingId").value;
+            const method = document.getElementById("paymentMethod").value;
+
+            document.getElementById("paymentMessage").textContent =
+                "Demo payment submitted for " + bookingId +
+                " using " + method + ". Real payment processing is not connected.";
+        });
+    </script>
+
+</body>
+</html>
+```

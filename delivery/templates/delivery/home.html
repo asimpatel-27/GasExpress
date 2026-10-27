@@ -1,0 +1,539 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasExpress | Gas Cylinder Delivery</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #183e34;
+            background: #fff;
+        }
+
+        header {
+            background: #07583f;
+            color: white;
+            padding: 17px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ffca28;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #ffca28;
+        }
+
+        .hero {
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            padding: 45px 8%;
+            color: white;
+            background-image:
+                linear-gradient(
+                    90deg,
+                    rgba(0, 28, 20, .88),
+                    rgba(0, 28, 20, .5),
+                    rgba(0, 28, 20, .08)
+                ),
+                url("{% static 'delivery/images/hero-gasexpress.png' %}");
+            background-position: center;
+            background-size: cover;
+        }
+
+        .hero-content {
+            max-width: 550px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 4vw, 48px);
+            line-height: 1.15;
+            margin: 0 0 15px;
+        }
+
+        .hero h1 span {
+            color: #ffca28;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 20px;
+            margin: 10px 8px 0 0;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #143b30;
+            background: #ffca28;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 24px 6%;
+            background: #edf7f2;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-right: 1px solid #cbded6;
+        }
+
+        .benefit:last-child {
+            border-right: none;
+        }
+
+        .benefit-icon {
+            font-size: 31px;
+        }
+
+        .benefit h3 {
+            font-size: 15px;
+            margin: 0 0 6px;
+        }
+
+        .benefit p {
+            margin: 0;
+            font-size: 13px;
+            color: #526c62;
+        }
+
+        .main {
+            max-width: 1300px;
+            margin: auto;
+            padding: 38px 24px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 2.2fr) minmax(240px, 1fr);
+            gap: 26px;
+        }
+
+        .section-title {
+            margin: 0 0 9px;
+            font-size: 29px;
+        }
+
+        .section-subtitle {
+            color: #62786f;
+            margin-bottom: 25px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 23px 18px;
+            background: white;
+            border: 1px solid #dce7e1;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px #153e3010;
+        }
+
+        .cylinder {
+            flex-shrink: 0;
+            position: relative;
+            width: 70px;
+            height: 125px;
+            border-radius: 23px 23px 15px 15px;
+            background: linear-gradient(
+                90deg,
+                #9e1510,
+                #f14438 28%,
+                #d5231b 70%,
+                #92120d
+            );
+            box-shadow: inset -6px 0 7px #5c0c0c44;
+        }
+
+        .cylinder::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            left: 10px;
+            width: 50px;
+            height: 18px;
+            border: 6px solid #cf261d;
+            border-bottom: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .cylinder::after {
+            content: "LPG";
+            position: absolute;
+            top: 54px;
+            left: 19px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .product-info {
+            min-width: 0;
+        }
+
+        .product-info h3 {
+            font-size: 17px;
+            margin: 0 0 10px;
+        }
+
+        .price {
+            color: #086746;
+            font-weight: bold;
+            font-size: 24px;
+            margin: 8px 0;
+        }
+
+        .stock {
+            color: #27754f;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .book-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 11px 17px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            background: #086746;
+        }
+
+        .book-btn:hover {
+            background: #034d35;
+        }
+
+        .out-stock {
+            color: #b3261e;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .why {
+            background: #e9f6f1;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .why h2 {
+            font-size: 21px;
+            margin-top: 0;
+        }
+
+        .why p {
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        .check {
+            color: #0b9a6e;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .safety {
+            text-align: center;
+            color: #08754f;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 20px;
+            margin-top: 28px;
+        }
+
+        .empty {
+            padding: 24px;
+            background: #f5f8f6;
+            border-radius: 8px;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            padding: 25px 7%;
+            color: white;
+            background: #064b37;
+            font-size: 13px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin-left: 12px;
+        }
+
+        @media (max-width: 950px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .benefit:nth-child(2) {
+                border-right: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                justify-content: center;
+            }
+
+            nav {
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .hero {
+                padding: 35px 22px;
+            }
+
+            .benefits,
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .benefit {
+                border-right: none;
+                border-bottom: 1px solid #cbded6;
+            }
+
+            .benefit:last-child {
+                border-bottom: none;
+            }
+
+            footer {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🔥 Gas<span>Express</span></div>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'booking_list' %}">My Bookings</a>
+            <a href="{% url 'payment_history' %}">Payments</a>
+            <a href="{% url 'complaint' %}">Complaints</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Safe Gas. Happy Homes.<br><span>GasExpress</span></h1>
+
+        <p>
+            Book your gas cylinder online and get it delivered
+            to your doorstep. Fast, safe and reliable.
+        </p>
+
+        {% if user.is_authenticated %}
+            <a class="btn" href="{% url 'booking' %}">Book a Cylinder</a>
+            <a class="btn btn-outline" href="{% url 'booking_list' %}">My Bookings</a>
+        {% else %}
+            <a class="btn" href="{% url 'login' %}">Login to Book</a>
+            <a class="btn btn-outline" href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="benefits">
+    <div class="benefit">
+        <div class="benefit-icon">🚚</div>
+        <div>
+            <h3>Fast Delivery</h3>
+            <p>On time, every time</p>
+        </div>
+    </div>
+
+    <div class="benefit">
+        <div class="benefit-icon">🛡️</div>
+        <div>
+            <h3>Safe & Secure</h3>
+            <p>Your safety is our priority</p>
+        </div>
+    </div>
+
+    <div class="benefit">
+        <div class="benefit-icon">🎧</div>
+        <div>
+            <h3>Customer Support</h3>
+            <p>We are here to help</p>
+        </div>
+    </div>
+
+    <div class="benefit">
+        <div class="benefit-icon">🌿</div>
+        <div>
+            <h3>Clean Energy</h3>
+            <p>For a greener tomorrow</p>
+        </div>
+    </div>
+</section>
+
+<main class="main">
+    <div class="layout">
+
+        <section>
+            <h2 class="section-title">Available Cylinders</h2>
+            <p class="section-subtitle">
+                Choose your cylinder type and check current availability.
+            </p>
+
+            {% if cylinders %}
+                <div class="products">
+                    {% for cylinder in cylinders %}
+                        <article class="product">
+                            <div class="cylinder" aria-hidden="true"></div>
+
+                            <div class="product-info">
+                                <h3>{{ cylinder.cylinder_type }} Cylinder</h3>
+
+                                <p class="price">
+                                    ₹{{ cylinder.price|floatformat:2 }}
+                                </p>
+
+                                {% if cylinder.available_stock > 0 %}
+                                    <p class="stock">
+                                        ● Available Stock:
+                                        {{ cylinder.available_stock }}
+                                    </p>
+
+                                    {% if user.is_authenticated %}
+                                        <a class="book-btn"
+                                           href="{% url 'booking' %}">
+                                            Book Now
+                                        </a>
+                                    {% else %}
+                                        <a class="book-btn"
+                                           href="{% url 'login' %}">
+                                            Login to Book
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <p class="out-stock">Currently Out of Stock</p>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty">
+                    No active cylinders are available currently.
+                </div>
+            {% endif %}
+        </section>
+
+        <aside class="why">
+            <h2>Why Choose GasExpress?</h2>
+
+            <p><span class="check">✔</span> Easy online booking</p>
+            <p><span class="check">✔</span> Live stock from your database</p>
+            <p><span class="check">✔</span> COD and UPI method selection</p>
+            <p><span class="check">✔</span> Booking status tracking</p>
+            <p><span class="check">✔</span> Safety complaint submission</p>
+
+            <div class="safety">
+                Your safety<br>is our priority!
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<footer>
+    <div>
+        <strong>🔥 GasExpress</strong><br>
+        Safe Gas · On Time · Every Time
+    </div>
+
+    <div>© 2026 GasExpress | Gas Cylinder Delivery System</div>
+
+    <div>
+        <a href="{% url 'home' %}">Home</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+</footer>
+
+</body>
+</html>

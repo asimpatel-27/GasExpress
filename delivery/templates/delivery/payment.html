@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasExpress - Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 30px 15px;
+        }
+        .payment-box {
+            max-width: 450px;
+            margin: 30px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #00000015;
+        }
+        h2 {
+            text-align: center;
+            color: #123b68;
+        }
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 16px;
+        }
+        button {
+            background: #0f766e;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 22px;
+        }
+        .note {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-box">
+        <h2>GasExpress Payment</h2>
+        <p>Select your payment method.</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="payment_method">Payment Method</label>
+            <select name="payment_method" id="payment_method" required>
+                <option value="COD">Cash on Delivery</option>
+                <option value="UPI">UPI</option>
+            </select>
+
+            <button type="submit">Confirm Payment Method</button>
+        </form>
+
+        <p class="note">
+            Demo only: this page records a payment method.
+            It does not collect or transfer real money.
+        </p>
+        
+<p><strong>Booking ID:</strong> #{{ booking.id }}</p>
+<p><strong>Customer:</strong> {{ booking.customer_name }}</p>
+<p><strong>Cylinder Type:</strong> {{ booking.cylinder_type }}</p>
+<p><strong>Quantity:</strong> {{ booking.quantity }}</p>
+<p><strong>Demo Amount:</strong> ₹{{ payment.amount }}</p>
+<hr>
+
+    </div>
+</body>
+</html>

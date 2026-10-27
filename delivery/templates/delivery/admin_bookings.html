@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bookings | GasExpress</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6f4;
+            color: #333;
+        }
+
+        nav {
+            background: #146c43;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 14px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 18px;
+        }
+
+        h1 {
+            color: #146c43;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .messages {
+            margin-bottom: 18px;
+        }
+
+        .message {
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .filter-box,
+        .table-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .filter-form input {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        button,
+        .reset {
+            display: inline-block;
+            border: none;
+            padding: 11px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .search-btn,
+        .save-btn {
+            background: #146c43;
+            color: white;
+        }
+
+        .reset {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .table-box {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1050px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #146c43;
+            color: white;
+            padding: 13px 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            border-bottom: 1px solid #eee;
+            padding: 13px 10px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: #f8fbf9;
+        }
+
+        .booking-id {
+            color: #146c43;
+            font-weight: bold;
+        }
+
+        .update-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 170px;
+        }
+
+        .update-form select {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .save-btn {
+            padding: 9px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .confirmed {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .delivered {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .empty {
+            padding: 25px;
+            text-align: center;
+            color: #777;
+        }
+
+        .bottom-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .bottom-links a {
+            background: #146c43;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        footer {
+            margin-top: 35px;
+            padding: 18px;
+            background: #146c43;
+            color: white;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .filter-form {
+                flex-direction: column;
+            }
+
+            .filter-form input,
+            .filter-form select,
+            .filter-form button,
+            .filter-form a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">GasExpress</div>
+        <div>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'reports' %}">Dashboard</a>
+            <a href="/admin/">Django Admin</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h1>Manage Bookings</h1>
+        <p class="subtitle">
+            View all customer bookings, assign delivery staff and update booking status.
+        </p>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="filter-box">
+            <form method="GET" class="filter-form">
+
+                <select name="status">
+                    <option value="">All Status</option>
+                    <option value="Pending" {% if selected_status == "Pending" %}selected{% endif %}>Pending</option>
+                    <option value="Confirmed" {% if selected_status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                    <option value="Delivered" {% if selected_status == "Delivered" %}selected{% endif %}>Delivered</option>
+                </select>
+
+                <select name="cylinder_type">
+                    <option value="">All Cylinders</option>
+                    <option value="Domestic" {% if selected_cylinder == "Domestic" %}selected{% endif %}>Domestic</option>
+                    <option value="Commercial" {% if selected_cylinder == "Commercial" %}selected{% endif %}>Commercial</option>
+                </select>
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search booking ID, customer or phone"
+                    value="{{ search }}"
+                >
+
+                <button type="submit" class="search-btn">Search</button>
+                <a href="{% url 'admin_bookings' %}" class="reset">Reset</a>
+
+            </form>
+        </div>
+
+        <div class="table-box">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Cylinder</th>
+                        <th>Quantity</th>
+                        <th>Booking Date</th>
+                        <th>Current Status</th>
+                        <th>Assign Staff / Update</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td class="booking-id">#{{ booking.id }}</td>
+                        <td>{{ booking.customer_name }}</td>
+                        <td>{{ booking.phone }}</td>
+                        <td>{{ booking.cylinder_type }}</td>
+                        <td>{{ booking.quantity }}</td>
+                        <td>{{ booking.booking_date|date:"d M Y, h:i A" }}</td>
+
+                        <td>
+                            {% if booking.status == "Pending" %}
+                                <span class="status pending">Pending</span>
+                            {% elif booking.status == "Confirmed" %}
+                                <span class="status confirmed">Confirmed</span>
+                            {% else %}
+                                <span class="status delivered">Delivered</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <form method="POST"
+                                  action="{% url 'admin_update_booking' booking.id %}"
+                                  class="update-form">
+
+                                {% csrf_token %}
+
+                                <select name="delivery_staff">
+                                    <option value="">Not assigned</option>
+
+                                    {% if booking.delivery_staff and not booking.delivery_staff.is_active %}
+                                    <option value="{{ booking.delivery_staff.id }}" selected>
+                                        {{ booking.delivery_staff.name }} (Inactive)
+                                    </option>
+                                    {% endif %}
+
+                                    {% for staff in staff_members %}
+                                    <option value="{{ staff.id }}"
+                                        {% if booking.delivery_staff_id == staff.id %}selected{% endif %}>
+                                        {{ staff.name }} ({{ staff.employee_id }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+
+                                <select name="status">
+                                    <option value="Pending" {% if booking.status == "Pending" %}selected{% endif %}>Pending</option>
+                                    <option value="Confirmed" {% if booking.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                                    <option value="Delivered" {% if booking.status == "Delivered" %}selected{% endif %}>Delivered</option>
+                                </select>
+
+                                <button type="submit" class="save-btn">
+                                    Save Changes
+                                </button>
+
+                            </form>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="empty">
+                            No bookings found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="bottom-links">
+            <a href="{% url 'reports' %}">Back to Dashboard</a>
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 GasExpress | Booking Management
+    </footer>
+
+</body>
+</html>

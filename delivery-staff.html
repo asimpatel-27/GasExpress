@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasConnect - Delivery Staff</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h2>GasConnect</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="booking.html">Booking</a>
+            <a href="tracking.html">Tracking</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <section class="login-section">
+        <div class="login-box">
+            <h1>Delivery Staff Management</h1>
+            <p>Add delivery staff details.</p>
+
+            <form id="staffForm">
+                <label for="staffId">Staff ID</label>
+                <input type="text" id="staffId" placeholder="Enter Staff ID" required>
+
+                <label for="staffName">Full Name</label>
+                <input type="text" id="staffName" placeholder="Enter full name" required>
+
+                <label for="staffPhone">Mobile Number</label>
+                <input type="tel" id="staffPhone" placeholder="10-digit mobile number"
+                    pattern="[0-9]{10}" maxlength="10" required>
+
+                <label for="staffArea">Delivery Area</label>
+                <input type="text" id="staffArea" placeholder="Enter delivery area" required>
+
+                <label for="staffStatus">Staff Status</label>
+                <select id="staffStatus" required>
+                    <option value="Available">Available</option>
+                    <option value="On Delivery">On Delivery</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+
+                <button type="submit">Add Staff</button>
+            </form>
+
+            <p id="staffMessage"></p>
+            <a href="dashboard.html" class="back-link">Back to Dashboard</a>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("staffForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const id = document.getElementById("staffId").value;
+            const name = document.getElementById("staffName").value;
+            const phone = document.getElementById("staffPhone").value;
+            const area = document.getElementById("staffArea").value;
+            const status = document.getElementById("staffStatus").value;
+
+            document.getElementById("staffMessage").textContent =
+                "Demo staff added: " + id + " | " + name +
+                " | Mobile: " + phone + " | Area: " + area +
+                " | Status: " + status +
+                ". Data is not saved to a database.";
+        });
+    </script>
+
+</body>
+</html>
+```

@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Receipt - GasExpress</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #f0f5f2;
+            color: #243b32;
+        }
+
+        .receipt {
+            max-width: 650px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 28px #173b3018;
+        }
+
+        .header {
+            background: #086746;
+            color: white;
+            text-align: center;
+            padding: 28px 20px;
+        }
+
+        .logo {
+            font-size: 29px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .logo span {
+            color: #ffca28;
+        }
+
+        .header h2 {
+            margin: 12px 0 5px;
+            font-size: 23px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #e2f5eb;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 28px;
+        }
+
+        .amount-box {
+            text-align: center;
+            background: #edf8f2;
+            border: 1px solid #d6eee1;
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 25px;
+        }
+
+        .amount-box p {
+            margin: 0 0 8px;
+            color: #577267;
+            font-size: 14px;
+        }
+
+        .amount {
+            font-size: 34px;
+            font-weight: bold;
+            color: #086746;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            background: #fff3cd;
+            color: #805b00;
+        }
+
+        .details-title {
+            font-size: 18px;
+            margin: 0 0 15px;
+            color: #086746;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 13px 0;
+            border-bottom: 1px solid #e8eeea;
+        }
+
+        .label {
+            color: #61746b;
+            font-size: 14px;
+        }
+
+        .value {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .status-row {
+            align-items: center;
+        }
+
+        .thanks {
+            margin-top: 25px;
+            text-align: center;
+            color: #60756b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 0 25px 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .print-btn {
+            color: white;
+            background: #086746;
+        }
+
+        .print-btn:hover {
+            background: #064b35;
+        }
+
+        .back-btn {
+            color: #086746;
+            background: white;
+            border: 1px solid #086746;
+        }
+
+        .back-btn:hover {
+            background: #edf8f2;
+        }
+
+        .footer {
+            text-align: center;
+            background: #f7faf8;
+            color: #60756b;
+            padding: 16px;
+            font-size: 12px;
+            border-top: 1px solid #e8eeea;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .row {
+                gap: 12px;
+            }
+
+            .label, .value {
+                font-size: 13px;
+            }
+
+            .amount {
+                font-size: 29px;
+            }
+
+            .actions {
+                padding: 0 18px 22px;
+            }
+
+            .btn {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .receipt {
+                max-width: 100%;
+                margin: 0;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            .actions {
+                display: none;
+            }
+
+            .header {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            .amount-box, .status {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="receipt">
+
+    <div class="header">
+        <div class="logo">🔥 Gas<span>Express</span></div>
+        <h2>Payment Receipt</h2>
+        <p>Gas Cylinder Delivery System</p>
+    </div>
+
+    <div class="content">
+
+        <div class="amount-box">
+            <p>Total Amount</p>
+            <div class="amount">₹{{ payment.amount }}</div>
+        </div>
+
+        <h3 class="details-title">Receipt Details</h3>
+
+        <div class="row">
+            <span class="label">Payment ID</span>
+            <span class="value">#{{ payment.id }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Booking ID</span>
+            <span class="value">#{{ booking.id }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Customer Name</span>
+            <span class="value">{{ booking.customer_name }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Phone</span>
+            <span class="value">{{ booking.phone }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Address</span>
+            <span class="value">{{ booking.address }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Cylinder Type</span>
+            <span class="value">{{ booking.cylinder_type }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Quantity</span>
+            <span class="value">{{ booking.quantity }}</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Payment Method</span>
+            <span class="value">
+                {{ payment.get_payment_method_display }}
+            </span>
+        </div>
+
+        <div class="row status-row">
+            <span class="label">Payment Status</span>
+            <span class="status">
+                {{ payment.get_status_display }}
+            </span>
+        </div>
+
+        <div class="row">
+            <span class="label">Payment Date</span>
+            <span class="value">
+                {{ payment.created_at|date:"d M Y, h:i A" }}
+            </span>
+        </div>
+
+        <div class="thanks">
+            Thank you for choosing GasExpress!<br>
+            Your comfort and safety are our priority.
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <button class="btn print-btn" onclick="window.print()">
+            🖨 Print Receipt
+        </button>
+
+        <a class="btn back-btn" href="{% url 'payment_history' %}">
+            Payment History
+        </a>
+
+        <a class="btn back-btn" href="{% url 'dashboard' %}">
+            Dashboard
+        </a>
+    </div>
+
+    <div class="footer">
+        © 2026 GasExpress | Gas Cylinder Delivery System
+    </div>
+
+</div>
+
+</body>
+</html>

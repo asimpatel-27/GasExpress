@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasExpress Staff Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f6f3;
+            color: #243b32;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0001;
+        }
+
+        header {
+            background: #07583f;
+            color: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-wrap: anywhere;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #086746;
+            color: white;
+        }
+
+        button {
+            background: #086746;
+            color: white;
+            padding: 9px 12px;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message {
+            background: #dff5e8;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #086746;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px;
+            }
+
+            table {
+                min-width: 750px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <h1>GasExpress Staff Dashboard</h1>
+        <p>Welcome, {{ staff.name }}</p>
+        <p>Employee ID: {{ staff.employee_id }}</p>
+    </header>
+
+    {% for message in messages %}
+        <div class="message">{{ message }}</div>
+    {% endfor %}
+
+    <h2>My Assigned Bookings</h2>
+
+    {% if bookings %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Cylinder</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>#{{ booking.id }}</td>
+                        <td>{{ booking.customer_name }}</td>
+                        <td>{{ booking.phone }}</td>
+                        <td>{{ booking.address }}</td>
+                        <td>{{ booking.cylinder_type }}</td>
+                        <td>{{ booking.quantity }}</td>
+                        <td class="status">{{ booking.status }}</td>
+                        <td>
+                            {% if booking.status == "Pending" %}
+                                <form method="POST"
+                                      action="{% url 'staff_update_booking_status' booking.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="Confirmed">
+                                    <button type="submit">Confirm</button>
+                                </form>
+                            {% elif booking.status == "Confirmed" %}
+                                <form method="POST"
+                                      action="{% url 'staff_update_booking_status' booking.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="Delivered">
+                                    <button type="submit">Mark Delivered</button>
+                                </form>
+                            {% else %}
+                                Completed
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No bookings have been assigned to this staff account yet.</p>
+    {% endif %}
+
+    <a class="back" href="{% url 'home' %}">Back to Home</a>
+
+</div>
+</body>
+</html>
